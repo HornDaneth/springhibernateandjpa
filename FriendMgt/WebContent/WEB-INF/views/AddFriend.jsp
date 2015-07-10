@@ -10,7 +10,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<fo:form commandName="friend" action="saveFriend">
+<fo:form commandName="friend" action="./addFriend" method="POST">
 <table>
 		<tr><td>Name: </td><td><fo:input path="NAMES" /></td></tr>
 		<tr><td>Telephone: </td><td><fo:input path="TEL" /></td></tr>

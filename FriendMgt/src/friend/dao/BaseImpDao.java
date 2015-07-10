@@ -6,10 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository (value="BaseDao")
@@ -38,4 +35,25 @@ public class BaseImpDao implements BaseDao{
 		return query.getResultList();
 	}
 
+	@Override
+	public <T> T findFriend(Class<T> clazz,int id) {
+		T obj = em.find(clazz, id);
+		return obj;
+	}
+
+	@Override
+	public void delete(Object ob) {
+		ob=em.merge(ob); //merge and assign a to the attached entity
+		em.remove(ob); // remove the attached entity
+		
+	}
+	
+	@Override
+	public void update(DTOFriend friend){
+		DTOFriend o= findFriend(DTOFriend.class, friend.getNUM());
+		o.setNAMES(friend.getNAMES());
+		o.setTEL(friend.getTEL());
+		o.setADDR(friend.getADDR());
+		em.merge(o);
+	}
 }

@@ -12,6 +12,7 @@ public class DTOFriend{
 	@Id
 	@GeneratedValue
 	private int NUM;// friend identifier
+	
 	private String NAMES;//friend name
 	private String TEL;
 	private String ADDR;

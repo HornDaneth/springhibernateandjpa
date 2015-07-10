@@ -24,4 +24,20 @@ public class FriendServiceImpl implements FriendService{
 		return baseDao.getFriend(DTOFriend.class);
 	}
 
+	@Override
+	public DTOFriend findFriend(int id) {
+		DTOFriend friend= baseDao.findFriend(DTOFriend.class, id);
+		return friend;
+	}
+
+	@Override
+	public void delete(Object obj) {
+		baseDao.delete(obj);
+	}
+
+	@Override
+	public void update(DTOFriend friend){
+		baseDao.update(friend);
+	}
+	
 }

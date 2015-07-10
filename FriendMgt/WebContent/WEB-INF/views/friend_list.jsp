@@ -11,7 +11,8 @@
 
 <body>
 
-<table>
+
+<table border="1">
 	<tr>
 		<td colspan=2><h1>Friend Management</h1></td>
 	</tr>
@@ -29,6 +30,9 @@
 		<td>
 			<div align="center">ADDR</div>
 		</td>
+		<td>
+			<div align="center">action</div>
+		</td>
 	</tr>
 	
 	<c:forEach var="p" items="${friends}">
@@ -45,13 +49,19 @@
 		<td>
 			<div align="center">${p.ADDR}</div>
 		</td>
+		<td>
+			<a href="./updateFriend/${p.NUM}">edit</a>
+		</td>
+		<td>
+			<a href="./deleteFriend/${p.NUM}">delete</a>
+		</td>
 	</tr>
 	</c:forEach>
-	
+	<tr bordercolor="#333333">
+		<td colspan="6"  align="right"><a href="./addFriend">[Add more friend]</a></td>		
+	</tr>
 </table>
-<div align="right"><a href="./addFriend">[Add more friend]</a></div>
-
-
+	
 
 </body>
 </html>
