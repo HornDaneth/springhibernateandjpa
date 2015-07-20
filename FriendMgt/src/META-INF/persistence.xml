@@ -9,7 +9,7 @@
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <properties>
             
-            <!-- privide a way hibernate privide a way to communicate with underly database  -->
+            <!-- privide a way hibernate to communicate with underly database  -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             <!--
                 value='create' to build a new database on each run;
@@ -20,8 +20,8 @@
             <property name="hibernate.hbm2ddl.auto" value="validate"/> 
             
             <property name="hibernate.show_sql" value="false"/>
-            <property name="hibernate.format_sql" value="true"/>
-            <property name="hibernate.use_sql_comments" value="true" /> 
+            <property name="hibernate.format_sql" value="false"/>
+            <property name="hibernate.use_sql_comments" value="false" /> 
             
            
 

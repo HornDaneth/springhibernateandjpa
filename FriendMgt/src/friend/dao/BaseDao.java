@@ -4,9 +4,9 @@ import java.util.List;
 
 public interface BaseDao {
 	
-	public void persist(Object obj);
-	public <T> List<T> getFriend(Class<T> clazz);
-	public <T> T findFriend(Class<T> clazz,int id);
+	public void persist(Object obj)throws Exception;
+	public <T> List<T> getList(Class<T> clazz)throws Exception;
+	public <T> T findObject(Class<T> clazz,int id)throws Exception;
 	public <T>void delete(Object obj);
-	public void update(DTOFriend friend);
+	public <T>void update(Class<T> clazz,Object obj,int id)throws Exception;
 }

@@ -1,4 +1,4 @@
-package friend.dao;
+package friend.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,12 +12,17 @@ public class DTOFriend{
 	@Id
 	@GeneratedValue
 	private int NUM;// friend identifier
-	
 	private String NAMES;//friend name
 	private String TEL;
 	private String ADDR;
+	
 	public int getNUM() {
 		return NUM;
+	}
+	@Override
+	public String toString() {
+		return "DTOFriend [NAMES=" + NAMES + ", TEL=" + TEL
+				+ ", ADDR=" + ADDR + "]";
 	}
 	public void setNUM(int nUM) {
 		NUM = nUM;
@@ -41,10 +46,4 @@ public class DTOFriend{
 		ADDR = aDDR;
 	}
 	
-	
-	
-	
-	
-	
-		
 }

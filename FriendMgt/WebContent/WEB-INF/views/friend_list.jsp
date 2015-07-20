@@ -1,4 +1,4 @@
-<%@page import="friend.dao.DTOFriend"%>
+<%@page import="friend.model.DTOFriend"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.text.SimpleDateFormat" %>
@@ -7,12 +7,52 @@
 <html>
 <head>
 	<title>MVC Friend Management System</title>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+   
+    $(document).ready(function() {
+    	
+		var deleteLink = $("a:contains('Delete')");
+      
+		$(deleteLink).click(function(event) {
+    	  
+			$.ajax({
+				url: $(event.target).attr("href"),
+			  	type: "DELETE",
+			  	
+			  	beforeSend: function(xhr) {
+			  		xhr.setRequestHeader("Accept", "application/json");
+			  		xhr.setRequestHeader("Content-Type", "application/json");
+			  	},
+			  	
+			  	success: function(friend) {
+			  		var respContent = "";
+			  		var rowToDelete = $(event.target).closest("tr");
+			  		
+			  		rowToDelete.remove();
+			  		
+			  		respContent += "<span class='success'>friend was deleted: [";
+			  		respContent += friend.names + " : ";
+			  		respContent += friend.tel + " : " ;
+			  		respContent += friend.addr + "]</span>";
+			  		
+			  		$("#sFriendFromResponse").html(respContent);   		
+			  	}
+			});
+  
+			event.preventDefault();
+		});
+       
+});   
+</script>
+	
+	
 </head>
 
 <body>
 
 
-<table border="1">
+<table>
 	<tr>
 		<td colspan=2><h1>Friend Management</h1></td>
 	</tr>
@@ -50,18 +90,16 @@
 			<div align="center">${p.ADDR}</div>
 		</td>
 		<td>
-			<a href="./updateFriend/${p.NUM}">edit</a>
-		</td>
-		<td>
-			<a href="./deleteFriend/${p.NUM}">delete</a>
+			<a href="${pageContext.request.contextPath}/updateFriend/${p.NUM}">Edit</a> &nbsp
+			<a href="${pageContext.request.contextPath}/deleteFriend/${p.NUM}">Delete</a>
 		</td>
 	</tr>
 	</c:forEach>
 	<tr bordercolor="#333333">
-		<td colspan="6"  align="right"><a href="./addFriend">[Add more friend]</a></td>		
+		<td colspan="6"  align="right"><a href="${pageContext.request.contextPath}/addFriend">[Add more friend]</a></td>		
 	</tr>
 </table>
 	
-
+<div id="sFriendFromResponse"></div>  
 </body>
 </html>

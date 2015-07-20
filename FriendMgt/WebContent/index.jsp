@@ -1,4 +1,4 @@
-<%@page import="friend.dao.DTOFriend"%>
+<%@page import="friend.model.DTOFriend"%>
 <%@page import="friend.dao.BaseDao"%>
 <%@page
 	import="org.springframework.web.context.support.WebApplicationContextUtils"%>
@@ -18,7 +18,8 @@
 
 	
 
-<div align="right"><a href="./addFriend">[Add friend]</a></div>
+<div align="center"><a href="./addFriend">[Add friend]</a></div>
+<div align="center"><a href="./listFriend">[List friend]</a></div> 
  
 
 </body>
