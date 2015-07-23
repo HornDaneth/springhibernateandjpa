@@ -1,7 +1,11 @@
 package friend.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.hibernate.ejb.criteria.ValueHandlerFactory.IntegerValueHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -9,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -32,41 +37,49 @@ public class FriendController {
 	}
 	
 
-	@RequestMapping (value="/addFriend" , method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE, 
-			consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping (value="/addFriend" , method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
 	
-	public @ResponseBody DTOFriend addFriend(@RequestBody DTOFriend dtoFriend,final RedirectAttributes redirectAttributes){
+	public @ResponseBody Map<String, DTOFriend> addFriend(@RequestBody DTOFriend dtoFriend,final RedirectAttributes redirectAttributes){
 		
 		String message= "New Friend "+dtoFriend.getNAMES()+"was added!";
 		redirectAttributes.addFlashAttribute("message", message);
-		return dao.persist(dtoFriend);
+		
+		Map<String, DTOFriend> respone=new HashMap<>();
+		respone.put("RESP_DATA", dao.persist(dtoFriend));
+		
+		return respone; 
 	}
 	
 	
-	@RequestMapping (value="/listFriends" , method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE 
+	@RequestMapping (value="/listFriends" , method = { RequestMethod.GET, RequestMethod.POST },produces = MediaType.APPLICATION_JSON_VALUE 
 			)
 	@ResponseBody
-	public List<DTOFriend> listFriend(){
-		return dao.listFriend();
+	public Map<String,List<DTOFriend>> listFriend(){
+		Map<String, List<DTOFriend>> respone=new HashMap<>();
+		respone.put("RESP_DATA", dao.listFriend());
+		return respone;
 	}
 	
-	@RequestMapping(value="/listFriend", method = RequestMethod.GET)
+	@RequestMapping(value="/listFriend", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView listAllFriend(){
 		ModelAndView mav=new ModelAndView("friend_list");
 		List<DTOFriend> list=new ArrayList<>();
-		list.addAll(listFriend());
+		list.addAll(listFriend().get("RESP_DATA"));
 		mav.addObject("friends", list);
 		return mav;
 	}
 	
 	
-	@RequestMapping(value="/deleteFriend/{id}",method=RequestMethod.DELETE)
+	@RequestMapping(value="/deleteFriend",method=RequestMethod.POST)
 	@ResponseBody
-	public DTOFriend deleteFriend(@PathVariable int id,final RedirectAttributes redirectAttribute){
-		DTOFriend friend = dao.findFriend(id);
+	public Map<String, DTOFriend> deleteFriend(@RequestBody DTOFriend id,final RedirectAttributes redirectAttribute){
+		DTOFriend friend = dao.findFriend(id.getNUM());
 		String message= "a Friend "+friend.getNAMES()+"was deleted!";
 		redirectAttribute.addFlashAttribute("message", message);
-		return dao.delete(friend);
+		Map<String, DTOFriend> respone=new HashMap<>();
+		respone.put("RESP_DATA", dao.delete(friend));
+		
+		return respone;
 	}
 	
 	@RequestMapping(value="/updateFriend/{id}",method=RequestMethod.GET)
@@ -77,14 +90,15 @@ public class FriendController {
 		return mav;
 	}
 	
-	@RequestMapping(value="/updateFriend/{id}", method=RequestMethod.PUT, 
+	@RequestMapping(value="/updateFriend", method=RequestMethod.POST, 
             produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public DTOFriend editFriend(@PathVariable Integer id,@RequestBody DTOFriend friend,final RedirectAttributes redirectAttributes){
-		friend.setNUM(id);
+	public Map<String, DTOFriend>  editFriend(@RequestBody DTOFriend friend,final RedirectAttributes redirectAttributes){
 		String message= "A Friend "+friend.getNAMES()+"was updated!";
 		redirectAttributes.addFlashAttribute("message", message);
-		return dao.update(friend);
+		Map<String, DTOFriend> respone=new HashMap<>();
+		respone.put("RESP_DATA",dao.update(friend));
+		return respone;
 	}
 	
 }

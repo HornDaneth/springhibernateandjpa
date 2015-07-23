@@ -14,18 +14,20 @@
 <script>
 $(document).ready(function() { 
 	  $('#newFriendForm').submit(function(event) {
-	       
+	      
+		  var NUM = $("#NUM").val();
 		  var NAMES = $('#NAMES').val();
 	      var TEL = $('#TEL').val();
 	      var ADDR = $('#ADDR').val();
 	      
-	      var json = { "names" : NAMES, "tel" : TEL, "addr": ADDR};
+	      var json = { "num" : NUM , "names" : NAMES, "tel" : TEL, "addr": ADDR};
 	  
+	      alert(NUM);
 	      
 	    $.ajax({
 	        url: $("#newFriendForm").attr( "action"),
 	        data: JSON.stringify(json),
-	        type: "PUT",
+	        type: "POST",
 	         
 	        beforeSend: function(xhr) {
 	            xhr.setRequestHeader("Accept", "application/json");
@@ -58,8 +60,9 @@ $(document).ready(function() {
 
 <div id="sFriendFromResponse"></div>  
 
-<fo:form id="newFriendForm" commandName="friend" action="${pageContext.request.contextPath}/updateFriend/${friend.NUM}">
+<fo:form id="newFriendForm" commandName="friend" action="${pageContext.request.contextPath}/updateFriend/">
 <table>
+		<fo:hidden path="NUM"/>
 		<tr><td>Name: </td><td><fo:input path="NAMES" /></td></tr>
 		<tr><td>Telephone: </td><td><fo:input path="TEL" /></td></tr>
 		<tr><td>Address: </td><td><fo:input path="ADDR" /></td></tr>

@@ -12,14 +12,17 @@
    
     $(document).ready(function() {
     	
-		var deleteLink = $("a:contains('Delete')");
-      
-		$(deleteLink).click(function(event) {
-    	  
+    	var deleteLink = $("a:contains('Delete')");
+    	
+    	$(deleteLink).click(function(event){
+    		
+    		var NUM =$(this).attr("name");
+			 var json = { "num" : NUM };			 
+			
 			$.ajax({
-				url: $(event.target).attr("href"),
-			  	type: "DELETE",
-			  	
+				url: "${pageContext.request.contextPath}/deleteFriend",
+			  	type: "POST",
+			  	data: JSON.stringify(json),
 			  	beforeSend: function(xhr) {
 			  		xhr.setRequestHeader("Accept", "application/json");
 			  		xhr.setRequestHeader("Content-Type", "application/json");
@@ -39,11 +42,10 @@
 			  		$("#sFriendFromResponse").html(respContent);   		
 			  	}
 			});
-  
 			event.preventDefault();
-		});
-       
-});   
+	
+		     });
+    	});   
 </script>
 	
 	
@@ -91,7 +93,7 @@
 		</td>
 		<td>
 			<a href="${pageContext.request.contextPath}/updateFriend/${p.NUM}">Edit</a> &nbsp
-			<a href="${pageContext.request.contextPath}/deleteFriend/${p.NUM}">Delete</a>
+			<a href=""  name="${p.NUM}" >Delete</a>
 		</td>
 	</tr>
 	</c:forEach>

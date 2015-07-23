@@ -31,7 +31,7 @@ public class BaseImpDao implements BaseDao{
 	@Override
 	
 	public <T> List<T> getList(Class<T> clazz) {
-		TypedQuery<T> query= em.createQuery(" from "+ clazz.getName(),clazz);
+		TypedQuery<T> query= em.createQuery(" from "+ clazz.getName()+" order by num desc",clazz);
 		return query.getResultList();
 	}
 
